@@ -38,6 +38,8 @@ int main() {
 
     Ghosts ghost;
 
+    // Comment LOL
+
     std::array<std::array<Cells, map_width>, map_height> converted_map = convert_map(map, pacman, ghost);
 
     std::vector<std::vector<short>> nodes = point_out_nodes(converted_map);
