@@ -38,7 +38,7 @@ int main() {
 
     Ghosts ghost;
 
-    // Comment LOL
+    // Comment LOL, Link to add Håkan https://github.com/BenjiRingius/Pacman/settings/access
 
     std::array<std::array<Cells, map_width>, map_height> converted_map = convert_map(map, pacman, ghost);
 
