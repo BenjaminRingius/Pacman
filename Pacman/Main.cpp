@@ -45,7 +45,7 @@ int main() {
     std::vector<std::vector<short>> nodes = point_out_nodes(converted_map);
 
     sf::RenderWindow window(sf::VideoMode(map_width*cell_size, map_height * cell_size/* + cell_size * 10*/), "Pacman"/*, sf::Style::Close*/);
-    window.setFramerateLimit(110);
+    window.setFramerateLimit(100);
 
     sf::Event events;
     while (1 == window.isOpen()) {
