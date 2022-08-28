@@ -1,5 +1,7 @@
 #include "Ghosts.h"
 
+// Later on we are going to make this draw system better
+
 
 void Ghosts::draw(sf::RenderWindow& window) {
 
