@@ -24,3 +24,7 @@ void Ghosts::set_position(short x, short y) {
 void Ghosts::update(std::array<std::array<Cells, map_width>, map_height>& map, sf::Event& events) {
 
 }
+
+void Ghosts::targetPacman(short targetX, short targetY) {
+
+}
