@@ -62,7 +62,8 @@ int main() {
         draw_map(converted_map, window);
         ghost.draw(window);
         pacman.draw(window);
-        pacman.update(converted_map, events);
+        pacman.update(converted_map);
+        ghost.update(converted_map, pacman);
         pacman.direction_management(converted_map, nodes);
         window.display();
     }

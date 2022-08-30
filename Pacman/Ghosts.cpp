@@ -21,10 +21,15 @@ void Ghosts::set_position(short x, short y) {
 	position = { x, y };
 }
 
-void Ghosts::update(std::array<std::array<Cells, map_width>, map_height>& map, sf::Event& events) {
+void Ghosts::update(std::array<std::array<Cells, map_width>, map_height>& map, Pacman& pacman) {
+	short x = pacman.get_pacman_position().x;
+	short y = pacman.get_pacman_position().y;
 
+	std::cout << x << " | " << y << std::endl;
 }
 
+
+// all kinds of targets will be in here and the algorithm itself
 void Ghosts::targetPacman(short targetX, short targetY) {
 
 }
