@@ -26,6 +26,8 @@ void Ghosts::update(std::array<std::array<Cells, map_width>, map_height>& map, P
 	short y = pacman.get_pacman_position().y;
 
 	std::cout << x << " | " << y << std::endl;
+
+	Ghosts::targetPacman(x, y);
 }
 
 
