@@ -26,11 +26,14 @@ void Ghosts::update(std::array<std::array<Cells, map_width>, map_height>& map, P
 
 	std::cout << "x: " << x << " | " << "y: " << y << std::endl;
 
-	Ghosts::targetPacman(x, y);
+	Ghosts::target(x, y);
 }
 
 
 // all kinds of targets will be in here and the algorithm itself
-void Ghosts::targetPacman(short targetX, short targetY) {
+char Ghosts::target(short targetX, short targetY) {
 
+	static char way_to_target = 1; // final direction so 0 is up, 1 is left, 2 is down and 3 is right
+
+	return way_to_target;
 }
