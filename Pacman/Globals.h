@@ -8,7 +8,6 @@ constexpr short pac_speed = 2;
 
 constexpr char pac_anime_speed = 7;
 constexpr char pac_anime_frames = 4;
-constexpr double pi = 3.14159265358979323846;
 
 
 enum class Cells { // I use enum class over enum because the compiler doesn't like it, nothing dangerous or something that cause an error.

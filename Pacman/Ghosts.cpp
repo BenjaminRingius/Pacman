@@ -9,7 +9,7 @@ void Ghosts::draw(sf::RenderWindow& window) {
 	sf::Sprite ghost;
 
 	sprite.loadFromFile("Sprites/BlinkyFrame.png", sf::IntRect(0, 0, cell_size, cell_size));
-
+	
 	ghost.setTexture(sprite);
 	ghost.setPosition(position.x, position.y);
 	window.draw(ghost);
@@ -30,7 +30,8 @@ void Ghosts::update(std::array<std::array<Cells, map_width>, map_height>& map, P
 }
 
 
-// all kinds of targets will be in here and the algorithm itself
+/*	all kinds of targets will be in hereand the algorithm itself,
+	the collision neighbour algorithm will be checked in a separete function but the nodes exists in "Node_Management.h"*/
 char Ghosts::target(short targetX, short targetY) {
 
 	static char way_to_target = 1; // final direction so 0 is up, 1 is left, 2 is down and 3 is right

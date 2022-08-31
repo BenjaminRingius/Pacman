@@ -38,13 +38,11 @@ int main() {
 
     Ghosts ghost;
 
-    // Link https://github.com/BenjiRingius/Pacman/settings/access
-
     std::array<std::array<Cells, map_width>, map_height> converted_map = convert_map(map, pacman, ghost);
 
     std::vector<std::vector<short>> nodes = point_out_nodes(converted_map);
 
-    sf::RenderWindow window(sf::VideoMode(map_width*cell_size, map_height * cell_size/* + cell_size * 10*/), "Pacman"/*, sf::Style::Close*/);
+    sf::RenderWindow window(sf::VideoMode(map_width*cell_size, map_height * cell_size), "Pacman");
     window.setFramerateLimit(100);
 
     sf::Event events;
