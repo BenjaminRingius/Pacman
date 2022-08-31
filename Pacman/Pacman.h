@@ -22,5 +22,5 @@ public:
 	void update(std::array<std::array<Cells, map_width>, map_height>& map);
 	void direction_management(std::array<std::array<Cells, map_width>, map_height>& map, std::vector<std::vector<short>>& nodes);
 
-	Position get_pacman_position();
+	Position get_position();
 };

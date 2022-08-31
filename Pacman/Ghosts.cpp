@@ -10,7 +10,6 @@ void Ghosts::draw(sf::RenderWindow& window) {
 
 	sprite.loadFromFile("Sprites/BlinkyFrame.png", sf::IntRect(0, 0, cell_size, cell_size));
 
-	sprite.Normalized;
 	ghost.setTexture(sprite);
 	ghost.setPosition(position.x, position.y);
 	window.draw(ghost);
@@ -22,10 +21,10 @@ void Ghosts::set_position(short x, short y) {
 }
 
 void Ghosts::update(std::array<std::array<Cells, map_width>, map_height>& map, Pacman& pacman) {
-	short x = pacman.get_pacman_position().x;
-	short y = pacman.get_pacman_position().y;
+	short x = pacman.get_position().x;
+	short y = pacman.get_position().y;
 
-	std::cout << x << " | " << y << std::endl;
+	std::cout << "x: " << x << " | " << "y: " << y << std::endl;
 
 	Ghosts::targetPacman(x, y);
 }
