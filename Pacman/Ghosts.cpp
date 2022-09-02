@@ -26,7 +26,52 @@ void Ghosts::update(std::array<std::array<Cells, map_width>, map_height>& map, P
 
 	std::cout << "x: " << x << " | " << "y: " << y << std::endl;
 
-	Ghosts::target(x, y);
+	direction = Ghosts::target(x, y);
+
+	// Ghost movement
+
+	switch (direction) {
+
+	case 0:
+		position.y -= pac_speed;
+		break;
+	case 1:
+		position.x -= pac_speed;
+		break;
+	case 2:
+		position.y += pac_speed;
+		break;
+	case 3:
+		position.x += pac_speed;
+	}
+
+
+	if (0 == (0 >= position.x || cell_size * map_width <= position.x + cell_size - 1)) {
+		if (1 == map_collision(position.x, position.y, map)) {
+			switch (direction) {
+
+			case 0:
+				position.y += pac_speed;
+				break;
+			case 1:
+				position.x += pac_speed;
+				break;
+			case 2:
+				position.y -= pac_speed;
+				break;
+			case 3:
+				position.x -= pac_speed;
+			}
+		}
+	}
+
+	if (-cell_size >= position.x && direction == 1) {
+		position.x = cell_size * map_width;
+	}
+	else if (cell_size * map_width <= position.x && direction == 3) {
+		position.x = -cell_size;
+	}
+
 }
 
 
