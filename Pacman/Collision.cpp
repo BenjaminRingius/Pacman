@@ -1,6 +1,6 @@
 #include "Collision.h"
 
-bool map_collision(short x, short y, std::array<std::array<Cells, map_width>, map_height>& map) {
+bool map_collision(short x, short y, std::array<std::array<Cells, map_width>, map_height>& map, bool isPacman) {
 
 	short pacRight = x + cell_size - 1;
 	short pacDown = y + cell_size - 1;
@@ -18,13 +18,15 @@ bool map_collision(short x, short y, std::array<std::array<Cells, map_width>, ma
 		}
 	}
 
-	if (map[(y + cell_size / 2) / cell_size][(x + cell_size / 2) / cell_size] == Cells::Food) {
-		map[y / cell_size][x / cell_size] = Cells::Empty;
-	}
-	else if (map[(y + cell_size / 2) / cell_size][(x + cell_size / 2) / cell_size] == Cells::Berries) {
-		map[y / cell_size][x / cell_size] = Cells::Empty;
-	}
+	if (1 == isPacman) {
 
+		if (map[(y + cell_size / 2) / cell_size][(x + cell_size / 2) / cell_size] == Cells::Food) {
+			map[y / cell_size][x / cell_size] = Cells::Empty;
+		}
+		else if (map[(y + cell_size / 2) / cell_size][(x + cell_size / 2) / cell_size] == Cells::Berries) {
+			map[y / cell_size][x / cell_size] = Cells::Empty;
+		}
+	}
 
 	return 0;
 

@@ -63,7 +63,7 @@ void Pacman::update(std::array<std::array<Cells, map_width>, map_height>& map) {
 	}
 
 	if (0 == (0 >= position.x || cell_size * map_width <= position.x + cell_size - 1)) {
-		if (1 == map_collision(position.x, position.y, map)) {
+		if (1 == map_collision(position.x, position.y, map, 1)) {
 			switch (direction) {
 
 			case 0:
@@ -108,10 +108,10 @@ void Pacman::direction_management(std::array<std::array<Cells, map_width>, map_h
 	cells[2] = map[ceil(pacDown / cell_size) + 1][position.x / cell_size];
 	cells[3] = map[position.y / cell_size][ceil(pacRight / cell_size) + 1];
 
-	std::vector<short> positions = { position.y, position.x };
+	std::vector<short> node_position = { position.y, position.x };
 
-	for (short init = 0; init < nodes.size(); init++) {
-		if (nodes[init] == positions) {
+	for (char init = 0; init < nodes.size(); init++) {
+		if (nodes[init] == node_position) {
 			if (newDir == 0 && cells[0] != Cells::Wall) {
 				direction = 0;
 			}
