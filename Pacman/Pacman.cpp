@@ -131,3 +131,7 @@ void Pacman::direction_management(std::array<std::array<Cells, map_width>, map_h
 Position Pacman::get_position() {
 	return position;
 }
+
+char Pacman::get_direction() {
+	return direction;
+}

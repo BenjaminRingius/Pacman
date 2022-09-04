@@ -154,6 +154,7 @@
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="ConvertMap.cpp" />
     <ClCompile Include="drawMap.cpp" />
+    <ClCompile Include="GhostManager.cpp" />
     <ClCompile Include="Ghosts.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Node_Management.cpp" />
@@ -163,6 +164,7 @@
     <ClInclude Include="Collision.h" />
     <ClInclude Include="ConvertMap.h" />
     <ClInclude Include="drawMap.h" />
+    <ClInclude Include="GhostManager.h" />
     <ClInclude Include="Ghosts.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="Node_Management.h" />

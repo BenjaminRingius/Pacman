@@ -43,11 +43,35 @@ float Ghosts::get_distance(char direction) {
 }
 
 
-void Ghosts::update(std::array<std::array<Cells, map_width>, map_height>& map, Pacman& pacman, std::vector<std::vector<short>>& nodes) {
+void Ghosts::update(std::array<std::array<Cells, map_width>, map_height>& map, Pacman& pacman, std::vector<std::vector<short>>& nodes, char id) {
+
+
 
 	direction = calulated_target(target.x, target.y, map, nodes);
 
-	target = pacman.get_position();
+	switch (id)
+	{
+	case 0:
+		target = pacman.get_position();
+		break;
+	case 1:
+		if (0 == pacman.get_direction()) {
+			target.x = pacman.get_position().x - (4 * cell_size);
+			target.y = pacman.get_position().y - (4 * cell_size);
+		}
+		else if (1 == pacman.get_direction()) {
+			target.x = pacman.get_position().x - (4 * cell_size);
+			target.y = pacman.get_position().y;
+		}
+		else if (2 == pacman.get_direction()) {
+			target.x = pacman.get_position().x;
+			target.y = pacman.get_position().y + (4 * cell_size);
+		}
+		else if (3 == pacman.get_direction()) {
+			target.x = pacman.get_position().x + (4 * cell_size);
+			target.x = pacman.get_position().y;
+		}
+	}
 
 	// Ghost movement
 
@@ -92,7 +116,6 @@ void Ghosts::update(std::array<std::array<Cells, map_width>, map_height>& map, P
 	else if (cell_size * map_width <= position.x && direction == 3) {
 		position.x = -cell_size;
 	}
-
 }
 
 char Ghosts::calulated_target(short targetX, short targetY, std::array<std::array<Cells, map_width>, map_height>& map, std::vector<std::vector<short>>& nodes) {
