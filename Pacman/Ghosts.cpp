@@ -27,16 +27,16 @@ float Ghosts::get_distance(char direction) {
 
 	switch (direction) {
 	case 0:
-		y -= pac_speed;
+		y -= ghost_speed;
 		break;
 	case 1:
-		x -= pac_speed;
+		x -= ghost_speed;
 		break;
 	case 2:
-		y += pac_speed;
+		y += ghost_speed;
 		break;
 	case 3:
-		x += pac_speed;
+		x += ghost_speed;
 	}
 
 	return static_cast<float>(sqrt(pow(x - target.x, 2) + pow(y - target.y, 2)));
@@ -54,16 +54,16 @@ void Ghosts::update(std::array<std::array<Cells, map_width>, map_height>& map, P
 	switch (direction) {
 
 	case 0:
-		position.y -= pac_speed;
+		position.y -= ghost_speed;
 		break;
 	case 1:
-		position.x -= pac_speed;
+		position.x -= ghost_speed;
 		break;
 	case 2:
-		position.y += pac_speed;
+		position.y += ghost_speed;
 		break;
 	case 3:
-		position.x += pac_speed;
+		position.x += ghost_speed;
 	}
 
 
@@ -72,16 +72,16 @@ void Ghosts::update(std::array<std::array<Cells, map_width>, map_height>& map, P
 			switch (direction) {
 
 			case 0:
-				position.y += pac_speed;
+				position.y += ghost_speed;
 				break;
 			case 1:
-				position.x += pac_speed;
+				position.x += ghost_speed;
 				break;
 			case 2:
-				position.y -= pac_speed;
+				position.y -= ghost_speed;
 				break;
 			case 3:
-				position.x -= pac_speed;
+				position.x -= ghost_speed;
 			}
 		}
 	}
@@ -95,9 +95,6 @@ void Ghosts::update(std::array<std::array<Cells, map_width>, map_height>& map, P
 
 }
 
-
-/*	all kinds of targets will be in hereand the algorithm itself,
-	the collision neighbour algorithm will be checked in a separete function but the nodes exists in "Node_Management.h"*/
 char Ghosts::calulated_target(short targetX, short targetY, std::array<std::array<Cells, map_width>, map_height>& map, std::vector<std::vector<short>>& nodes) {
 
 	static char way_to_target = 1; // final direction so 0 is up, 1 is left, 2 is down and 3 is right
@@ -109,7 +106,6 @@ char Ghosts::calulated_target(short targetX, short targetY, std::array<std::arra
 	cells[3] = map[position.y / cell_size][ceil((position.x + cell_size - 1) / cell_size) + 1];
 
 	std::vector<short> node_position = { position.y, position.x };
-
 
 	// the path finding
 
@@ -125,7 +121,7 @@ char Ghosts::calulated_target(short targetX, short targetY, std::array<std::arra
 				if (a == (2 + way_to_target) % 4) {
 					continue;
 				}
-				else if (Cells::Wall != cells[a]) {
+				else if (Cells::Wall != cells[a] && Cells::Door != cells[a]) {
 					
 					if (4 == optimal_direction) {
 						optimal_direction = a;
