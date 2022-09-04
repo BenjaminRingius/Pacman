@@ -21,7 +21,7 @@ std::array<std::array<Cells, map_width>, map_height> convert_map(std::array<std:
 			case 'P':
 				pacman.set_position(cell_size * j, cell_size * i);
 				break;
-			case '1':
+			case '0':
 				ghost.set_position(cell_size * j, cell_size * i);
 				break;
 			case '.':

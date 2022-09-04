@@ -45,8 +45,6 @@ float Ghosts::get_distance(char direction) {
 
 void Ghosts::update(std::array<std::array<Cells, map_width>, map_height>& map, Pacman& pacman, std::vector<std::vector<short>>& nodes) {
 
-	//std::cout << "x: " << x << " | " << "y: " << y << std::endl;
-
 	direction = calulated_target(target.x, target.y, map, nodes);
 
 	target = pacman.get_position();
@@ -113,7 +111,7 @@ char Ghosts::calulated_target(short targetX, short targetY, std::array<std::arra
 	std::vector<short> node_position = { position.y, position.x };
 
 
-	// the chase algorithm
+	// the path finding
 
 	char optimal_direction = 4;
 	char available_ways = 0;
@@ -124,7 +122,7 @@ char Ghosts::calulated_target(short targetX, short targetY, std::array<std::arra
 
 			for (char a = 0; a < 4; a++) {
 
-				if (a == (2 + direction) % 4) {
+				if (a == (2 + way_to_target) % 4) {
 					continue;
 				}
 				else if (Cells::Wall != cells[a]) {
@@ -156,8 +154,6 @@ char Ghosts::calulated_target(short targetX, short targetY, std::array<std::arra
 
 		}
 	}
-
-	std::cout << way_to_target << std::endl;
 
 	return static_cast<char>(way_to_target);
 }
