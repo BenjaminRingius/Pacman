@@ -9,10 +9,10 @@
 class Pacman
 {
 	char direction = 1;
-	char newDir;
+	char newDir = 1;
 	char anime_timer = 0;
 	
-	bool anime_switch;
+	bool anime_switch = 1;
 
 	Position position;
 

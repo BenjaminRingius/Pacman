@@ -3,17 +3,45 @@
 // Later on we are going to make this draw system better
 
 
+Ghosts::Ghosts(char ghost_id) :
+	id(ghost_id)
+{
+
+}
+
+
 void Ghosts::draw(sf::RenderWindow& window) {
 
+
+	unsigned char frame = static_cast<unsigned char>(floor(anime_timer / static_cast<float>(ghost_anime_speed)));
+
+	sf::Sprite face;
+	sf::Sprite body;
+
 	sf::Texture sprite;
-	sf::Sprite ghost;
-
-	sprite.loadFromFile("Sprites/BlinkyFrame.png", sf::IntRect(0, 0, cell_size, cell_size));
 	
-	ghost.setTexture(sprite);
-	ghost.setPosition(position.x, position.y);
-	window.draw(ghost);
+	sprite.loadFromFile("Sprites/Ghosts.png", sf::IntRect(cell_size * frame, 0, cell_size, cell_size));
 
+	body.setTexture(sprite);
+	body.setPosition(position.x, position.y);
+
+	switch (id) {
+	case 0:
+		body.setColor(sf::Color(255, 0, 0));
+		break;
+	case 1:
+		body.setColor(sf::Color(255,182,255));
+		break;
+	case 2:
+		body.setColor(sf::Color(0, 255, 255));
+		break;
+	case 3:
+		body.setColor(sf::Color(255, 182, 85));
+	}
+
+	window.draw(body);
+
+	anime_timer = (1 + anime_timer) % (ghost_anime_frames * ghost_anime_speed);
 }
 
 void Ghosts::set_position(short x, short y) {
@@ -43,35 +71,78 @@ float Ghosts::get_distance(char direction) {
 }
 
 
-void Ghosts::update(std::array<std::array<Cells, map_width>, map_height>& map, Pacman& pacman, std::vector<std::vector<short>>& nodes, char id) {
-
-
+void Ghosts::update(std::array<std::array<Cells, map_width>, map_height>& map, Pacman& pacman, Ghosts& blinky, std::vector<std::vector<short>>& nodes) {
 
 	direction = calulated_target(target.x, target.y, map, nodes);
 
-	switch (id)
-	{
+	switch (id) {
 	case 0:
 		target = pacman.get_position();
 		break;
 	case 1:
-		if (0 == pacman.get_direction()) {
-			target.x = pacman.get_position().x - (4 * cell_size);
-			target.y = pacman.get_position().y - (4 * cell_size);
+
+		switch (pacman.get_direction()) {
+			case 0:
+			{
+				target.x = pacman.get_position().x - (4 * cell_size);
+				target.y = pacman.get_position().y - (4 * cell_size);
+				break;
+			}
+			case 1:
+			{
+				target.x = pacman.get_position().x - (4 * cell_size);
+				target.y = pacman.get_position().y;
+				break;
+			}
+			case 2:
+			{
+				target.x = pacman.get_position().x;
+				target.y = pacman.get_position().y + (4 * cell_size);
+				break;
+			}
+			case 3:
+			{
+				target.x = pacman.get_position().x + (4 * cell_size);
+				target.y = pacman.get_position().y;
+			}
 		}
-		else if (1 == pacman.get_direction()) {
-			target.x = pacman.get_position().x - (4 * cell_size);
-			target.y = pacman.get_position().y;
+		break;
+	case 2:
+
+		switch (pacman.get_direction()) {
+			case 0:
+			{
+				target.x = pacman.get_position().x - (2 * cell_size);
+				target.y = pacman.get_position().y - (2 * cell_size);
+				break;
+			}
+			case 1:
+			{
+				target.x = pacman.get_position().x - (2 * cell_size);
+				target.y = pacman.get_position().y;
+				break;
+			}
+			case 2:
+			{
+				target.x = pacman.get_position().x;
+				target.y = pacman.get_position().y + (2 * cell_size);
+				break;
+			}
+			case 3:
+			{
+				target.x = pacman.get_position().x + (2 * cell_size);
+				target.y = pacman.get_position().y;
+			}
 		}
-		else if (2 == pacman.get_direction()) {
-			target.x = pacman.get_position().x;
-			target.y = pacman.get_position().y + (4 * cell_size);
-		}
-		else if (3 == pacman.get_direction()) {
-			target.x = pacman.get_position().x + (4 * cell_size);
-			target.x = pacman.get_position().y;
-		}
+
+		target.x += target.x - blinky.get_position().x;
+		target.y += target.y - blinky.get_position().y;
+
+		break;
+	case 3:
+		target = pacman.get_position();
 	}
+		
 
 	// Ghost movement
 
@@ -145,7 +216,7 @@ char Ghosts::calulated_target(short targetX, short targetY, std::array<std::arra
 					continue;
 				}
 				else if (Cells::Wall != cells[a] && Cells::Door != cells[a]) {
-					
+
 					if (4 == optimal_direction) {
 						optimal_direction = a;
 					}
@@ -174,5 +245,9 @@ char Ghosts::calulated_target(short targetX, short targetY, std::array<std::arra
 		}
 	}
 
-	return static_cast<char>(way_to_target);
+	return way_to_target;
+}
+
+Position Ghosts::get_position() {
+	return position;
 }

@@ -13,7 +13,6 @@ void Pacman::draw(sf::RenderWindow& window) {
 	if (1 == anime_switch) {
 		anime_timer = (1 + anime_timer) % (pac_anime_frames * pac_anime_speed);
 	}
-	sprite.Normalized;
 	pacman.setTexture(sprite);
 	pacman.setPosition(position.x, position.y);
 	window.draw(pacman);
