@@ -13,7 +13,7 @@ class Ghosts
 
 	char direction;
 	char id;
-	unsigned char anime_timer = 0;
+	unsigned char anime_timer;
 
 public:
 	Ghosts(char ghost_id);
