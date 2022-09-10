@@ -24,7 +24,7 @@ void Pacman::set_position(short x, short y) {
 }
 
 void Pacman::update(std::array<std::array<Cells, map_width>, map_height>& map) {
-	
+
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
 		newDir = 0;
 		if (direction == 2)

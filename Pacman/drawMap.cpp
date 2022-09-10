@@ -9,9 +9,8 @@ void draw_map(std::array<std::array<Cells, map_width>, map_height>& map, sf::Ren
 	sf::CircleShape berry(cell_size / 4);
 
 	food.setFillColor(sf::Color::White);
-	food.setOrigin(0 - food.getLocalBounds().width * 3 + 1, 0 - food.getLocalBounds().height * 3 + 1);
+	food.setOrigin(food.getLocalBounds().width / 2 - 1, food.getLocalBounds().height / 2 - 1);
 	berry.setFillColor(sf::Color::White);
-	berry.setOrigin(0 - berry.getLocalBounds().width / 2, 0 - berry.getLocalBounds().height / 2);
 
 	for (char i = 0; i < map_height; i++) {
 
@@ -29,11 +28,11 @@ void draw_map(std::array<std::array<Cells, map_width>, map_height>& map, sf::Ren
 				window.draw(cell);
 				break;
 			case Cells::Food:
-				food.setPosition(cell_size * j, cell_size * i);
+				food.setPosition(cell_size * j + cell_size / 2, cell_size * i + cell_size / 2);
 				window.draw(food);
 				break;
 			case Cells::Berries:
-				berry.setPosition(cell_size * j, cell_size * i);
+				berry.setPosition(cell_size * j + berry.getLocalBounds().width / 2, cell_size * i + berry.getLocalBounds().height / 2);
 				window.draw(berry);
 			}
 

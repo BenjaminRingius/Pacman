@@ -40,7 +40,7 @@ int main() {
 
     GhostManager ghost_manager;
 
-    const std::array<Position, 4> ghost_positions;
+    std::array<Position, 4> ghost_positions;
 
     std::array<std::array<Cells, map_width>, map_height> converted_map = convert_map(map, pacman, ghost_positions);
 
@@ -64,9 +64,10 @@ int main() {
         window.clear(sf::Color::Black);
 
         draw_map(converted_map, window);
-        ghost_manager.update(window, converted_map, pacman, nodes);
+        ghost_manager.draw(window);
         pacman.draw(window);
         pacman.update(converted_map);
+        ghost_manager.update(converted_map, pacman, nodes);
         pacman.direction_management(converted_map, nodes);
         window.display();
     }
