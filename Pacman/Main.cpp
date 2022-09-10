@@ -40,7 +40,7 @@ int main() {
 
     GhostManager ghost_manager;
 
-    std::array<Position, 4> ghost_positions;
+    const std::array<Position, 4> ghost_positions;
 
     std::array<std::array<Cells, map_width>, map_height> converted_map = convert_map(map, pacman, ghost_positions);
 
