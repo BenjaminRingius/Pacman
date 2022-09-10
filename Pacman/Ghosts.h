@@ -5,8 +5,6 @@
 
 #include "Globals.h"
 #include "Collision.h"
-#include "Pacman.h"
-#include "Node_Management.h"
 
 class Ghosts
 {
@@ -22,8 +20,8 @@ public:
 
 	void draw(sf::RenderWindow& window);
 	void set_position(short x, short y);
-	float get_distance(char direction);
 	void update(std::array<std::array<Cells, map_width>, map_height>& map, Pacman& pacman, Ghosts& blinky, std::vector<std::vector<short>>& nodes);
+	float get_distance(char direction);
 	char calulated_target(short targetX, short targetY, std::array<std::array<Cells, map_width>, map_height>& map, std::vector<std::vector<short>>& nodes);
 
 	Position get_position();

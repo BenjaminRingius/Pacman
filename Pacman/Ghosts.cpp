@@ -3,10 +3,9 @@
 // Later on we are going to make this draw system better
 
 
-Ghosts::Ghosts(char ghost_id) :
+Ghosts::Ghosts(char ghost_id):
 	id(ghost_id)
 {
-
 }
 
 
@@ -48,101 +47,61 @@ void Ghosts::set_position(short x, short y) {
 	position = { x, y };
 }
 
-float Ghosts::get_distance(char direction) {
-
-	short x = position.x;
-	short y = position.y;
-
-	switch (direction) {
-	case 0:
-		y -= ghost_speed;
-		break;
-	case 1:
-		x -= ghost_speed;
-		break;
-	case 2:
-		y += ghost_speed;
-		break;
-	case 3:
-		x += ghost_speed;
-	}
-
-	return static_cast<float>(sqrt(pow(x - target.x, 2) + pow(y - target.y, 2)));
-}
 
 
 void Ghosts::update(std::array<std::array<Cells, map_width>, map_height>& map, Pacman& pacman, Ghosts& blinky, std::vector<std::vector<short>>& nodes) {
 
-	direction = calulated_target(target.x, target.y, map, nodes);
 
-	switch (id) {
+	switch (id)
+	{
 	case 0:
 		target = pacman.get_position();
 		break;
 	case 1:
 
 		switch (pacman.get_direction()) {
-			case 0:
-			{
-				target.x = pacman.get_position().x - (4 * cell_size);
-				target.y = pacman.get_position().y - (4 * cell_size);
-				break;
-			}
-			case 1:
-			{
-				target.x = pacman.get_position().x - (4 * cell_size);
-				target.y = pacman.get_position().y;
-				break;
-			}
-			case 2:
-			{
-				target.x = pacman.get_position().x;
-				target.y = pacman.get_position().y + (4 * cell_size);
-				break;
-			}
-			case 3:
-			{
-				target.x = pacman.get_position().x + (4 * cell_size);
-				target.y = pacman.get_position().y;
-			}
+		case 0:
+			target.x = pacman.get_position().x - cell_size * 4;
+			target.y = pacman.get_position().y - cell_size * 4;
+			break;
+		case 1:
+			target.x = pacman.get_position().x - cell_size * 4;
+			target.y = pacman.get_position().y;
+			break;
+		case 2:
+			target.x = pacman.get_position().x;
+			target.y = pacman.get_position().y + cell_size * 4;
+			break;
+		case 3:
+			target.x = pacman.get_position().x + cell_size * 4;
+			target.y = pacman.get_position().y;
 		}
 		break;
 	case 2:
-
 		switch (pacman.get_direction()) {
-			case 0:
-			{
-				target.x = pacman.get_position().x - (2 * cell_size);
-				target.y = pacman.get_position().y - (2 * cell_size);
-				break;
-			}
-			case 1:
-			{
-				target.x = pacman.get_position().x - (2 * cell_size);
-				target.y = pacman.get_position().y;
-				break;
-			}
-			case 2:
-			{
-				target.x = pacman.get_position().x;
-				target.y = pacman.get_position().y + (2 * cell_size);
-				break;
-			}
-			case 3:
-			{
-				target.x = pacman.get_position().x + (2 * cell_size);
-				target.y = pacman.get_position().y;
-			}
+		case 0:
+			target.x = pacman.get_position().x - cell_size * 2;
+			target.y = pacman.get_position().y - cell_size * 2;
+			break;
+		case 1:
+			target.x = pacman.get_position().x - cell_size * 2;
+			target.y = pacman.get_position().y;
+			break;
+		case 2:
+			target.x = pacman.get_position().x;
+			target.y = pacman.get_position().y + cell_size * 2;
+			break;
+		case 3:
+			target.x = pacman.get_position().x + cell_size * 2;
+			target.y = pacman.get_position().y;
 		}
-
-		target.x += target.x - blinky.get_position().x;
-		target.y += target.y - blinky.get_position().y;
-
 		break;
 	case 3:
-		target = pacman.get_position();
+		target.x = cell_size * 2;
+		target.y = cell_size * 2;
 	}
 		
+	direction = calulated_target(target.x, target.y, map, nodes);
 
 	// Ghost movement
 
@@ -188,10 +147,31 @@ void Ghosts::update(std::array<std::array<Cells, map_width>, map_height>& map, P
 		position.x = -cell_size;
 	}
 }
+float Ghosts::get_distance(char direction) {
+
+	short x = position.x;
+	short y = position.y;
+
+	switch (direction) {
+	case 0:
+		y -= ghost_speed;
+		break;
+	case 1:
+		x -= ghost_speed;
+		break;
+	case 2:
+		y += ghost_speed;
+		break;
+	case 3:
+		x += ghost_speed;
+	}
+
+	return static_cast<float>(sqrt(pow(x - target.x, 2) + pow(y - target.y, 2)));
+}
 
 char Ghosts::calulated_target(short targetX, short targetY, std::array<std::array<Cells, map_width>, map_height>& map, std::vector<std::vector<short>>& nodes) {
 
-	static char way_to_target = 1; // final direction so 0 is up, 1 is left, 2 is down and 3 is right
+	static char way_to_target = 0; // final direction so 0 is up, 1 is left, 2 is down and 3 is right
 
 	std::array<Cells, 4> cells{};
 	cells[0] = map[floor(position.y / cell_size) - 1][position.x / cell_size];

@@ -48,7 +48,7 @@ int main() {
 
     ghost_manager.reset(ghost_positions);
 
-    sf::RenderWindow window(sf::VideoMode(map_width*cell_size, map_height * cell_size), "Pacman");
+    sf::RenderWindow window(sf::VideoMode(map_width * cell_size, map_height * cell_size), "Pacman");
     window.setFramerateLimit(60);
 
     sf::Event events;
@@ -64,10 +64,9 @@ int main() {
         window.clear(sf::Color::Black);
 
         draw_map(converted_map, window);
-        ghost_manager.draw(window);
+        ghost_manager.update(window, converted_map, pacman, nodes);
         pacman.draw(window);
         pacman.update(converted_map);
-        ghost_manager.update(converted_map, pacman, nodes);
         pacman.direction_management(converted_map, nodes);
         window.display();
     }
