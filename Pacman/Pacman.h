@@ -8,6 +8,7 @@
 
 class Pacman
 {
+private:
 	char direction = 1;
 	char newDir = 1;
 	char anime_timer = 0;

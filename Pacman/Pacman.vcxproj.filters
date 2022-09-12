@@ -33,7 +33,7 @@
     <ClCompile Include="Node_Management.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Ghosts.cpp">
+    <ClCompile Include="Ghost.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GhostManager.cpp">
@@ -59,7 +59,7 @@
     <ClInclude Include="Node_Management.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Ghosts.h">
+    <ClInclude Include="Ghost.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GhostManager.h">

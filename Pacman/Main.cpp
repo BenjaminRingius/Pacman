@@ -6,7 +6,7 @@
 #include "ConvertMap.h"
 #include "drawMap.h"
 #include "Node_Management.h"
-#include "Ghosts.h"
+#include "Ghost.h"
 #include "GhostManager.h"
 
 int main() {

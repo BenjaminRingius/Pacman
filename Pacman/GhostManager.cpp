@@ -9,7 +9,7 @@ void GhostManager::reset(const std::array<Position, 4>& ghost_positions) {
 
 void GhostManager::draw(sf::RenderWindow& window) {
 
-	for (Ghosts& ghost : ghosts) {
+	for (Ghost& ghost : ghosts) {
 
 		ghost.draw(window);
 	}
@@ -18,7 +18,7 @@ void GhostManager::draw(sf::RenderWindow& window) {
 void GhostManager::update(std::array<std::array<Cells, map_width>, map_height>& map, Pacman& pacman, std::vector<std::vector<short>>& nodes) {
 
 
-	for (Ghosts& ghost : ghosts) {
+	for (Ghost& ghost : ghosts) {
 		ghost.update(map, pacman, ghosts[0], nodes);
 	}
 }

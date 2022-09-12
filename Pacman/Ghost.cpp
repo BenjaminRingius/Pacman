@@ -1,15 +1,15 @@
-#include "Ghosts.h"
+#include "Ghost.h"
 
 // Later on we are going to make this draw system better
 
 
-Ghosts::Ghosts(char ghost_id):
+Ghost::Ghost(char ghost_id):
 	id(ghost_id)
 {
 }
 
 
-void Ghosts::draw(sf::RenderWindow& window) {
+void Ghost::draw(sf::RenderWindow& window) {
 
 
 	unsigned char frame = static_cast<unsigned char>(floor(anime_timer / static_cast<float>(ghost_anime_speed)));
@@ -43,13 +43,13 @@ void Ghosts::draw(sf::RenderWindow& window) {
 	anime_timer = (1 + anime_timer) % (ghost_anime_frames * ghost_anime_speed);
 }
 
-void Ghosts::set_position(short x, short y) {
+void Ghost::set_position(short x, short y) {
 	position = { x, y };
 }
 
 
 
-void Ghosts::update(std::array<std::array<Cells, map_width>, map_height>& map, Pacman& pacman, Ghosts& blinky, std::vector<std::vector<short>>& nodes) {
+void Ghost::update(std::array<std::array<Cells, map_width>, map_height>& map, Pacman& pacman, Ghost& blinky, std::vector<std::vector<short>>& nodes) {
 
 
 	switch (id)
@@ -101,7 +101,7 @@ void Ghosts::update(std::array<std::array<Cells, map_width>, map_height>& map, P
 		target.y = cell_size * 2;
 	}
 		
-	direction = calulated_target(target.x, target.y, map, nodes);
+	direction = caclulated_target(target.x, target.y, map, nodes);
 
 	// Ghost movement
 
@@ -147,7 +147,7 @@ void Ghosts::update(std::array<std::array<Cells, map_width>, map_height>& map, P
 		position.x = -cell_size;
 	}
 }
-float Ghosts::get_distance(char direction) {
+float Ghost::get_distance(char direction) {
 
 	short x = position.x;
 	short y = position.y;
@@ -169,7 +169,7 @@ float Ghosts::get_distance(char direction) {
 	return static_cast<float>(sqrt(pow(x - target.x, 2) + pow(y - target.y, 2)));
 }
 
-char Ghosts::calulated_target(short targetX, short targetY, std::array<std::array<Cells, map_width>, map_height>& map, std::vector<std::vector<short>>& nodes) {
+char Ghost::caclulated_target(short targetX, short targetY, std::array<std::array<Cells, map_width>, map_height>& map, std::vector<std::vector<short>>& nodes) {
 
 	static char way_to_target = 0; // final direction so 0 is up, 1 is left, 2 is down and 3 is right
 
@@ -228,6 +228,6 @@ char Ghosts::calulated_target(short targetX, short targetY, std::array<std::arra
 	return way_to_target;
 }
 
-Position Ghosts::get_position() {
+Position Ghost::get_position() {
 	return position;
 }
