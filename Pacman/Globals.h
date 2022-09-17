@@ -14,7 +14,7 @@ constexpr char ghost_anime_frames = 2;
 
 constexpr short ghost_speed = 4;
 
-enum class Cells { // I use enum class over enum because the compiler doesn't like it, nothing dangerous or something that cause an error.
+enum class Cells {
 	Empty,
 	Wall,
 	Food,
