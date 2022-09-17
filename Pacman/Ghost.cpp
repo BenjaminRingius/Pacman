@@ -107,8 +107,6 @@ void Ghost::update(std::array<std::array<Cells, map_width>, map_height>& map, Pa
 		
 	caclulate_target(map, nodes);
 
-	// Ghost movement
-
 	switch (direction) {
 
 	case 0:
@@ -122,10 +120,6 @@ void Ghost::update(std::array<std::array<Cells, map_width>, map_height>& map, Pa
 		break;
 	case 3:
 		position.x += ghost_speed;
-	}
-
-	if (id == 2) {
-		//std::cout << static_cast<short>(direction);
 	}
 
 	if (0 == (0 >= position.x || cell_size * map_width <= position.x + cell_size - 1)) {
