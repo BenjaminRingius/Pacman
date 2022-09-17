@@ -8,14 +8,13 @@
 #include "Ghost.h"
 
 
-class GhostManager
-{
+class GhostManager {
 private:
 	char current_mode;
 
 	short mode_timer;
 
-	std::array<Ghost, 4> ghosts = { Ghost(0), Ghost(1), Ghost(2), Ghost(3)};
+	std::array<Ghost, 4> ghosts = { Ghost(0), Ghost(1), Ghost(2), Ghost(3) };
 
 public:
 	void draw(sf::RenderWindow& window);

@@ -17,7 +17,6 @@ void GhostManager::draw(sf::RenderWindow& window) {
 
 void GhostManager::update(std::array<std::array<Cells, map_width>, map_height>& map, Pacman& pacman, std::vector<std::vector<short>>& nodes) {
 
-
 	for (Ghost& ghost : ghosts) {
 		ghost.update(map, pacman, ghosts[0], nodes);
 	}

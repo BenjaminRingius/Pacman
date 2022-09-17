@@ -20,7 +20,7 @@ int main() {
         "#.##.#.#####.#.##.#",
         "#....#...#...#....#",
         "####.### # ###.####",
-        "   #.#   0123#.#   ",
+        "   #.#3  01 2#.#   ",
         "####.# ##=## #.####",
         "    .  #   #  .    ",
         "####.# ##### #.####",
@@ -64,9 +64,9 @@ int main() {
         window.clear(sf::Color::Black);
 
         draw_map(converted_map, window);
-        ghost_manager.draw(window);
         pacman.draw(window);
         pacman.update(converted_map);
+        ghost_manager.draw(window);
         ghost_manager.update(converted_map, pacman, nodes);
         pacman.direction_management(converted_map, nodes);
         window.display();

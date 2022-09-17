@@ -6,8 +6,7 @@
 #include "Globals.h"
 #include "Collision.h"
 
-class Pacman
-{
+class Pacman {
 private:
 	char direction = 1;
 	char newDir = 1;

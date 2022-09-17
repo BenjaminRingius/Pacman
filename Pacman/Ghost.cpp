@@ -11,8 +11,7 @@ Ghost::Ghost(char ghost_id):
 
 void Ghost::draw(sf::RenderWindow& window) {
 
-
-	unsigned char frame = static_cast<unsigned char>(floor(anime_timer / static_cast<float>(ghost_anime_speed)));
+	char frame = static_cast<unsigned char>(floor(anime_timer / static_cast<float>(ghost_anime_speed)));
 
 	sf::Sprite face;
 	sf::Sprite body;
@@ -51,14 +50,11 @@ void Ghost::set_position(short x, short y) {
 
 void Ghost::update(std::array<std::array<Cells, map_width>, map_height>& map, Pacman& pacman, Ghost& blinky, std::vector<std::vector<short>>& nodes) {
 
-
-	switch (id)
-	{
+	switch (id) {
 	case 0:
 		target = pacman.get_position();
 		break;
 	case 1:
-
 		switch (pacman.get_direction()) {
 		case 0:
 			target.x = pacman.get_position().x - cell_size * 4;
@@ -95,13 +91,21 @@ void Ghost::update(std::array<std::array<Cells, map_width>, map_height>& map, Pa
 			target.x = pacman.get_position().x + cell_size * 2;
 			target.y = pacman.get_position().y;
 		}
+		target.x = (target.x - blinky.get_position().x) * 2;
+		target.y = (target.y - blinky.get_position().y) * 2;
 		break;
+
 	case 3:
-		target.x = cell_size * 2;
-		target.y = cell_size * 2;
+		if (8 * cell_size <= sqrt(pow(position.x - pacman.get_position().x, 2) + pow(position.y - pacman.get_position().y, 2))) {
+			target = pacman.get_position();
+		}
+		else {
+			target = { 0, cell_size * (map_height - 1) };
+		}
+		
 	}
 		
-	direction = caclulated_target(target.x, target.y, map, nodes);
+	caclulate_target(map, nodes);
 
 	// Ghost movement
 
@@ -120,6 +124,9 @@ void Ghost::update(std::array<std::array<Cells, map_width>, map_height>& map, Pa
 		position.x += ghost_speed;
 	}
 
+	if (id == 2) {
+		//std::cout << static_cast<short>(direction);
+	}
 
 	if (0 == (0 >= position.x || cell_size * map_width <= position.x + cell_size - 1)) {
 		if (1 == map_collision(position.x, position.y, map, 0)) {
@@ -169,9 +176,7 @@ float Ghost::get_distance(char direction) {
 	return static_cast<float>(sqrt(pow(x - target.x, 2) + pow(y - target.y, 2)));
 }
 
-char Ghost::caclulated_target(short targetX, short targetY, std::array<std::array<Cells, map_width>, map_height>& map, std::vector<std::vector<short>>& nodes) {
-
-	static char way_to_target = 0; // final direction so 0 is up, 1 is left, 2 is down and 3 is right
+void Ghost::caclulate_target(std::array<std::array<Cells, map_width>, map_height>& map, std::vector<std::vector<short>>& nodes) {
 
 	std::array<Cells, 4> cells{};
 	cells[0] = map[floor(position.y / cell_size) - 1][position.x / cell_size];
@@ -192,7 +197,7 @@ char Ghost::caclulated_target(short targetX, short targetY, std::array<std::arra
 
 			for (char a = 0; a < 4; a++) {
 
-				if (a == (2 + way_to_target) % 4) {
+				if (a == (2 + direction) % 4) {
 					continue;
 				}
 				else if (Cells::Wall != cells[a] && Cells::Door != cells[a]) {
@@ -210,22 +215,20 @@ char Ghost::caclulated_target(short targetX, short targetY, std::array<std::arra
 			}
 
 			if (1 < available_ways) {
-				way_to_target = optimal_direction;
+				direction = optimal_direction;
 			}
 			else {
 
 				if (4 == optimal_direction) {
-					way_to_target = (2 + way_to_target) % 4;
+					direction = (2 + direction) % 4;
 				}
 				else {
-					way_to_target = optimal_direction;
+					direction = optimal_direction;
 				}
 			}
 
 		}
 	}
-
-	return way_to_target;
 }
 
 Position Ghost::get_position() {

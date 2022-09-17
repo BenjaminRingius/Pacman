@@ -3,7 +3,7 @@
 constexpr char map_height = 22;
 constexpr char map_width = 19;
 
-constexpr short cell_size = 32;
+constexpr short cell_size = 36;
 constexpr short pac_speed = 4;
 
 constexpr char pac_anime_speed = 7;
