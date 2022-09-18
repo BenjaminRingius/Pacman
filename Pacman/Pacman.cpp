@@ -95,7 +95,6 @@ void Pacman::update(std::array<std::array<Cells, map_width>, map_height>& map) {
 	}
 }
 
-
 void Pacman::direction_management(std::array<std::array<Cells, map_width>, map_height>& map, std::vector<std::vector<short>>& nodes) {
 
 	short pacDown = position.y + cell_size - 1;
@@ -108,8 +107,7 @@ void Pacman::direction_management(std::array<std::array<Cells, map_width>, map_h
 	cells[3] = map[position.y / cell_size][ceil(pacRight / cell_size) + 1];
 
 	std::vector<short> node_position = { position.y, position.x };
-
-	for (char init = 0; init < nodes.size(); init++) {
+	for (unsigned char init = 0; init < nodes.size(); init++) {
 		if (nodes[init] == node_position) {
 			if (newDir == 0 && cells[0] != Cells::Wall) {
 				direction = 0;

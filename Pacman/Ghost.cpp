@@ -8,6 +8,11 @@ Ghost::Ghost(char ghost_id):
 {
 }
 
+void Ghost::reset(const Position& exit, bool use_door) {
+	ghost_exit = exit;
+	target = exit;
+	ghost_house = use_door;
+}
 
 void Ghost::draw(sf::RenderWindow& window) {
 
@@ -18,7 +23,7 @@ void Ghost::draw(sf::RenderWindow& window) {
 
 	sf::Texture sprite;
 	
-	sprite.loadFromFile("Sprites/Ghosts.png", sf::IntRect(cell_size * frame, 0, cell_size, cell_size));
+	sprite.loadFromFile("Sprites/Ghosts.png", sf::IntRect(cell_size * frame, 0, cell_size, cell_size)); 
 
 	body.setTexture(sprite);
 	body.setPosition(position.x, position.y);
@@ -46,65 +51,80 @@ void Ghost::set_position(short x, short y) {
 	position = { x, y };
 }
 
-
+bool Ghost::pacman_collision(const Position& pacman) {
+	if ((position.x / cell_size) == (pacman.x / cell_size) && (position.y / cell_size) == (pacman.y / cell_size)) {
+		return 1;
+	}
+	return 0;
+}
 
 void Ghost::update(std::array<std::array<Cells, map_width>, map_height>& map, Pacman& pacman, Ghost& blinky, std::vector<std::vector<short>>& nodes) {
 
-	switch (id) {
-	case 0:
-		target = pacman.get_position();
-		break;
-	case 1:
-		switch (pacman.get_direction()) {
+	if (0 == ghost_house) {
+		switch (id) {
 		case 0:
-			target.x = pacman.get_position().x - cell_size * 4;
-			target.y = pacman.get_position().y - cell_size * 4;
-			break;
-		case 1:
-			target.x = pacman.get_position().x - cell_size * 4;
-			target.y = pacman.get_position().y;
-			break;
-		case 2:
-			target.x = pacman.get_position().x;
-			target.y = pacman.get_position().y + cell_size * 4;
-			break;
-		case 3:
-			target.x = pacman.get_position().x + cell_size * 4;
-			target.y = pacman.get_position().y;
-		}
-		break;
-	case 2:
-		switch (pacman.get_direction()) {
-		case 0:
-			target.x = pacman.get_position().x - cell_size * 2;
-			target.y = pacman.get_position().y - cell_size * 2;
-			break;
-		case 1:
-			target.x = pacman.get_position().x - cell_size * 2;
-			target.y = pacman.get_position().y;
-			break;
-		case 2:
-			target.x = pacman.get_position().x;
-			target.y = pacman.get_position().y + cell_size * 2;
-			break;
-		case 3:
-			target.x = pacman.get_position().x + cell_size * 2;
-			target.y = pacman.get_position().y;
-		}
-		target.x = (target.x - blinky.get_position().x) * 2;
-		target.y = (target.y - blinky.get_position().y) * 2;
-		break;
-
-	case 3:
-		if (8 * cell_size <= sqrt(pow(position.x - pacman.get_position().x, 2) + pow(position.y - pacman.get_position().y, 2))) {
 			target = pacman.get_position();
+			break;
+		case 1:
+			switch (pacman.get_direction()) {
+			case 0:
+				target.x = pacman.get_position().x - cell_size * 4;
+				target.y = pacman.get_position().y - cell_size * 4;
+				break;
+			case 1:
+				target.x = pacman.get_position().x - cell_size * 4;
+				target.y = pacman.get_position().y;
+				break;
+			case 2:
+				target.x = pacman.get_position().x;
+				target.y = pacman.get_position().y + cell_size * 4;
+				break;
+			case 3:
+				target.x = pacman.get_position().x + cell_size * 4;
+				target.y = pacman.get_position().y;
+			}
+			break;
+		case 2:
+			switch (pacman.get_direction()) {
+			case 0:
+				target.x = pacman.get_position().x - cell_size * 2;
+				target.y = pacman.get_position().y - cell_size * 2;
+				break;
+			case 1:
+				target.x = pacman.get_position().x - cell_size * 2;
+				target.y = pacman.get_position().y;
+				break;
+			case 2:
+				target.x = pacman.get_position().x;
+				target.y = pacman.get_position().y + cell_size * 2;
+				break;
+			case 3:
+				target.x = pacman.get_position().x + cell_size * 2;
+				target.y = pacman.get_position().y;
+			}
+			target.x = (target.x - blinky.get_position().x) * 2;
+			target.y = (target.y - blinky.get_position().y) * 2;
+			break;
+
+		case 3:
+			if (8 * cell_size <= sqrt(pow(position.x - pacman.get_position().x, 2) + pow(position.y - pacman.get_position().y, 2))) {
+				target = pacman.get_position();
+			}
+			else {
+				target = { 0, cell_size * (map_height - 1) };
+			}
+
 		}
-		else {
-			target = { 0, cell_size * (map_height - 1) };
-		}
-		
 	}
-		
+	else {
+
+		//target = ghost_exit;
+		if (target.x == position.x && target.y == position.y) {
+			ghost_house = 0;
+		}
+	}
+	
+
 	caclulate_target(map, nodes);
 
 	switch (direction) {
@@ -184,28 +204,41 @@ void Ghost::caclulate_target(std::array<std::array<Cells, map_width>, map_height
 
 	char optimal_direction = 4;
 	char available_ways = 0;
-
-	for (char init = 0; init < nodes.size(); init++) {
+	
+	for (unsigned char init = 0; init < nodes.size(); init++) {
 		if (nodes[init] == node_position) {
-
 
 			for (char a = 0; a < 4; a++) {
 
 				if (a == (2 + direction) % 4) {
 					continue;
 				}
-				else if (Cells::Wall != cells[a] && Cells::Door != cells[a]) {
+				if (0 == ghost_house) {
+					if (Cells::Wall != cells[a] && Cells::Door != cells[a]) {
 
-					if (4 == optimal_direction) {
-						optimal_direction = a;
-					}
-					available_ways++;
+						if (4 == optimal_direction) {
+							optimal_direction = a;
+						}
+						available_ways++;
 
-					if (get_distance(a) < get_distance(optimal_direction)) {
-						optimal_direction = a;
+						if (get_distance(a) < get_distance(optimal_direction)) {
+							optimal_direction = a;
+						}
 					}
 				}
+				else {
+					if (Cells::Wall != cells[a]) {
 
+						if (4 == optimal_direction) {
+							optimal_direction = a;
+						}
+						available_ways++;
+
+						if (get_distance(a) < get_distance(optimal_direction)) {
+							optimal_direction = a;
+						}
+					}
+				}
 			}
 
 			if (1 < available_ways) {

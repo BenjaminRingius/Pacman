@@ -20,9 +20,9 @@ int main() {
         "#.##.#.#####.#.##.#",
         "#....#...#...#....#",
         "####.### # ###.####",
-        "   #.#3  01 2#.#   ",
+        "   #.#   0   #.#   ",
         "####.# ##=## #.####",
-        "    .  #   #  .    ",
+        "    .  #123#  .    ",
         "####.# ##### #.####",
         "   #.#       #.#   ",
         "####.# ##### #.####",
@@ -67,7 +67,7 @@ int main() {
         pacman.draw(window);
         pacman.update(converted_map);
         ghost_manager.draw(window);
-        ghost_manager.update(converted_map, pacman, nodes);
+        ghost_manager.update(converted_map, pacman, nodes, ghost_positions);
         pacman.direction_management(converted_map, nodes);
         window.display();
     }
