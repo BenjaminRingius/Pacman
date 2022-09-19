@@ -16,5 +16,5 @@ private:
 public:
 	void draw(sf::RenderWindow& window);
 	void reset(const std::array<Position, 4>& ghost_positions);
-	void update(std::array<std::array<Cells, map_width>, map_height>& map, Pacman& pacman, std::vector<std::vector<short>>& nodes, const std::array<Position, 4>& ghost_positions);
+	bool update(std::array<std::array<Cells, map_width>, map_height>& map, Pacman& pacman, std::vector<std::vector<short>>& nodes);
 };

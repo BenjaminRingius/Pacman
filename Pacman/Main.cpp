@@ -64,10 +64,18 @@ int main() {
         window.clear(sf::Color::Black);
 
         draw_map(converted_map, window);
+        ghost_manager.draw(window);
         pacman.draw(window);
         pacman.update(converted_map);
-        ghost_manager.draw(window);
-        ghost_manager.update(converted_map, pacman, nodes, ghost_positions);
+
+        if (1 == pacman.start_game()) {
+
+            if (1 == ghost_manager.update(converted_map, pacman, nodes)) { // When this update returns 1 it means that we have a collision between pacman and a ghost or if pacman wins
+                ghost_manager.reset(ghost_positions);
+                converted_map = convert_map(map, pacman, ghost_positions); // when we reset this converted_map array it'll set the start position pacman
+            }
+        }
+
         pacman.direction_management(converted_map, nodes);
         window.display();
     }

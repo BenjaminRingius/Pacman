@@ -8,15 +8,15 @@ Ghost::Ghost(char ghost_id):
 {
 }
 
-void Ghost::reset(const Position& exit, bool use_door) {
+void Ghost::reset(const Position& exit, bool door) {
 	ghost_exit = exit;
 	target = exit;
-	ghost_house = use_door;
+	use_door = door;
 }
 
 void Ghost::draw(sf::RenderWindow& window) {
 
-	char frame = static_cast<unsigned char>(floor(anime_timer / static_cast<float>(ghost_anime_speed)));
+	char frame = static_cast<char>(floor(anime_timer / static_cast<float>(ghost_anime_speed)));
 
 	sf::Sprite face;
 	sf::Sprite body;
@@ -60,7 +60,7 @@ bool Ghost::pacman_collision(const Position& pacman) {
 
 void Ghost::update(std::array<std::array<Cells, map_width>, map_height>& map, Pacman& pacman, Ghost& blinky, std::vector<std::vector<short>>& nodes) {
 
-	if (0 == ghost_house) {
+	if (0 == use_door) {
 		switch (id) {
 		case 0:
 			target = pacman.get_position();
@@ -120,7 +120,7 @@ void Ghost::update(std::array<std::array<Cells, map_width>, map_height>& map, Pa
 
 		//target = ghost_exit;
 		if (target.x == position.x && target.y == position.y) {
-			ghost_house = 0;
+			use_door = 0;
 		}
 	}
 	
@@ -213,7 +213,7 @@ void Ghost::caclulate_target(std::array<std::array<Cells, map_width>, map_height
 				if (a == (2 + direction) % 4) {
 					continue;
 				}
-				if (0 == ghost_house) {
+				if (0 == use_door) {
 					if (Cells::Wall != cells[a] && Cells::Door != cells[a]) {
 
 						if (4 == optimal_direction) {

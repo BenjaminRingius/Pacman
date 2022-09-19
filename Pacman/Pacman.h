@@ -8,10 +8,13 @@
 
 class Pacman {
 private:
-	char direction = 1;
-	char newDir = 1;
+	char direction;
+	char newDir;
+	char anime_direction = 1;
 	char anime_timer = 0;
+	char frame = 0;
 
+	bool force_anime = 1;
 	bool anime_switch = 1;
 
 	Position position;
@@ -24,4 +27,6 @@ public:
 
 	Position get_position();
 	char get_direction();
+
+	bool start_game();
 };

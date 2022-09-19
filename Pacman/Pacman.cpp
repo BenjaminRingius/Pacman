@@ -1,27 +1,44 @@
 #include "Pacman.h"
 
+void Pacman::set_position(short x, short y) {
+
+	position = { x, y };
+	direction = 4;
+	newDir = 4;
+	force_anime = 0;
+}
 
 void Pacman::draw(sf::RenderWindow& window) {
 
 	sf::Texture sprite;
 	sf::Sprite pacman;
 
-	char frame = floor(anime_timer / pac_anime_speed);
-
-	sprite.loadFromFile("Sprites/PacmanFrames.png", sf::IntRect(cell_size * frame, cell_size * direction, cell_size, cell_size));
-
-	if (1 == anime_switch) {
-		anime_timer = (1 + anime_timer) % (pac_anime_frames * pac_anime_speed);
+	if (newDir != 4 && direction != 4 && 1 == force_anime) {
+		frame = floor(anime_timer / pac_anime_speed);
 	}
+	else {
+		frame = 0;
+	}
+
+	if (4 != direction)
+		anime_direction = direction;
+	else {
+		anime_direction = 1;
+	}
+
+	sprite.loadFromFile("Sprites/PacmanFrames.png", sf::IntRect(cell_size * frame, cell_size * anime_direction, cell_size, cell_size));
+
+	if (1 == force_anime) {
+		if (1 == anime_switch) {
+			anime_timer = (1 + anime_timer) % (pac_anime_frames * pac_anime_speed);
+		}
+	}
+
 	pacman.setTexture(sprite);
 	pacman.setPosition(position.x, position.y);
 	window.draw(pacman);
 }
 
-void Pacman::set_position(short x, short y) {
-
-	position = { x, y };
-}
 
 void Pacman::update(std::array<std::array<Cells, map_width>, map_height>& map) {
 
@@ -80,11 +97,15 @@ void Pacman::update(std::array<std::array<Cells, map_width>, map_height>& map) {
 			anime_switch = 0;
 		}
 		else {
-			anime_switch = 1;
+			if (1 == force_anime) {
+				anime_switch = 1;
+			}
 		}
 	}
 	else {
-		anime_switch = 1;
+		if (1 == force_anime) {
+			anime_switch = 1;
+		}
 	}
 
 	if (-cell_size >= position.x && direction == 1) {
@@ -93,6 +114,13 @@ void Pacman::update(std::array<std::array<Cells, map_width>, map_height>& map) {
 	else if (cell_size * map_width <= position.x && direction == 3) {
 		position.x = -cell_size;
 	}
+}
+
+bool Pacman::start_game() {
+	if (direction > -1 && direction < 4) {
+		force_anime = 1;
+		return 1;
+	} return 0;
 }
 
 void Pacman::direction_management(std::array<std::array<Cells, map_width>, map_height>& map, std::vector<std::vector<short>>& nodes) {

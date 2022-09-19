@@ -19,14 +19,14 @@ void GhostManager::draw(sf::RenderWindow& window) {
 	}
 }
 
-void GhostManager::update(std::array<std::array<Cells, map_width>, map_height>& map, Pacman& pacman, std::vector<std::vector<short>>& nodes, const std::array<Position, 4>& ghost_positions) {
+bool GhostManager::update(std::array<std::array<Cells, map_width>, map_height>& map, Pacman& pacman, std::vector<std::vector<short>>& nodes) {
 
 	for (Ghost& ghost : ghosts) {
 		ghost.update(map, pacman, ghosts[0], nodes);
 
 		if (1 == ghost.pacman_collision(pacman.get_position())) {
-			reset(ghost_positions);
+			return 1;
 		}
-
 	}
+	return 0;
 }
