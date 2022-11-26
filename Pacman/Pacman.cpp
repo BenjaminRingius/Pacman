@@ -42,22 +42,22 @@ void Pacman::draw(sf::RenderWindow& window) {
 
 void Pacman::update(std::array<std::array<Cells, map_width>, map_height>& map) {
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 		newDir = 0;
 		if (direction == 2)
 			direction = 0;
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) ||sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
 		newDir = 1;
 		if (direction == 3)
 			direction = 1;
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 		newDir = 2;
 		if (direction == 0)
 			direction = 2;
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) || sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
 		newDir = 3;
 		if (direction == 1)
 			direction = 3;

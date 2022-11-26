@@ -49,7 +49,7 @@ int main() {
     ghost_manager.reset(ghost_positions);
 
     sf::RenderWindow window(sf::VideoMode(map_width * cell_size, map_height * cell_size), "Pacman");
-    window.setFramerateLimit(60);
+    window.setFramerateLimit(50);
 
     sf::Event events;
     while (1 == window.isOpen()) {
