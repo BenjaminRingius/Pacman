@@ -59,19 +59,19 @@ void Ghost::set_position(short x, short y) {
 
 bool Ghost::pacman_collision(const Position& pacman) {
 
-	std::array<std::array<short, 2>, 4> ghost_cells = {};
+	std::array<std::array<char, 2>, 4> ghost_cells = {};
 
-	ghost_cells[0] = { static_cast<short>(floor(position.y / cell_size)), static_cast<short>(floor(position.x / cell_size)) };
-	ghost_cells[1] = { static_cast<short>(floor(position.y / cell_size)), static_cast<short>(ceil(position.x + cell_size - 1 / cell_size)) };
-	ghost_cells[2] = { static_cast<short>(ceil(position.y + cell_size - 1 / cell_size)), static_cast<short>(floor(position.x / cell_size)) };
-	ghost_cells[3] = { static_cast<short>(ceil(position.y + cell_size - 1 / cell_size)), static_cast<short>(ceil(position.x + cell_size - 1 / cell_size)) };
+	ghost_cells[0] = { static_cast<char>(floor(position.y / cell_size)), static_cast<char>(floor(position.x / cell_size)) };
+	ghost_cells[1] = { static_cast<char>(floor(position.y / cell_size)), static_cast<char>(ceil(position.x + cell_size - 1 / cell_size)) };
+	ghost_cells[2] = { static_cast<char>(ceil(position.y + cell_size - 1 / cell_size)), static_cast<char>(floor(position.x / cell_size)) };
+	ghost_cells[3] = { static_cast<char>(ceil(position.y + cell_size - 1 / cell_size)), static_cast<char>(ceil(position.x + cell_size - 1 / cell_size)) };
 
-	std::array<std::array<short, 2>, 4> pacman_cells = {};
+	std::array<std::array<char, 2>, 4> pacman_cells = {};
 
-	pacman_cells[0] = { static_cast<short>(floor(pacman.y / cell_size)), static_cast<short>(floor(pacman.x / cell_size)) };
-	pacman_cells[1] = { static_cast<short>(floor(pacman.y / cell_size)), static_cast<short>(ceil(pacman.x + cell_size - 1 / cell_size)) };
-	pacman_cells[2] = { static_cast<short>(ceil(pacman.y + cell_size - 1 / cell_size)), static_cast<short>(floor(pacman.x / cell_size)) };
-	pacman_cells[3] = { static_cast<short>(ceil(pacman.y + cell_size - 1 / cell_size)), static_cast<short>(ceil(pacman.x + cell_size - 1 / cell_size)) };
+	pacman_cells[0] = { static_cast<char>(floor(pacman.y / cell_size)), static_cast<char>(floor(pacman.x / cell_size)) };
+	pacman_cells[1] = { static_cast<char>(floor(pacman.y / cell_size)), static_cast<char>(ceil(pacman.x + cell_size - 1 / cell_size)) };
+	pacman_cells[2] = { static_cast<char>(ceil(pacman.y + cell_size - 1 / cell_size)), static_cast<char>(floor(pacman.x / cell_size)) };
+	pacman_cells[3] = { static_cast<char>(ceil(pacman.y + cell_size - 1 / cell_size)), static_cast<char>(ceil(pacman.x + cell_size - 1 / cell_size)) };
 
 	for (char i = 0; i < 4; i++) {
 		if (ghost_cells[i] == pacman_cells[i]) {
