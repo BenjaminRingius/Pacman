@@ -58,11 +58,29 @@ void Ghost::set_position(short x, short y) {
 }
 
 bool Ghost::pacman_collision(const Position& pacman) {
-	if (round(position.x / cell_size) == round(pacman.x / cell_size) && // x coordinates This collision technique isn't very accurate, trying to come up with att better idea that's more accurate.
-		round(position.y / cell_size) == round(pacman.y / cell_size)) { // y coordinates
-		return 1;
+
+	std::array<std::array<int, 2>, 4> ghost_cells = {};
+
+	ghost_cells[0] = { static_cast<int>(floor(position.y / cell_size)), static_cast<int>(floor(position.x / cell_size)) };
+	ghost_cells[1] = { static_cast<int>(floor(position.y / cell_size)), static_cast<int>(ceil(position.x + cell_size - 1 / cell_size)) };
+	ghost_cells[2] = { static_cast<int>(ceil(position.y + cell_size - 1 / cell_size)), static_cast<int>(floor(position.x / cell_size)) };
+	ghost_cells[3] = { static_cast<int>(ceil(position.y + cell_size - 1 / cell_size)), static_cast<int>(ceil(position.x + cell_size - 1 / cell_size)) };
+
+	std::array<std::array<int, 2>, 4> pacman_cells = {};
+
+	pacman_cells[0] = { static_cast<int>(floor(pacman.y / cell_size)), static_cast<int>(floor(pacman.x / cell_size)) };
+	pacman_cells[1] = { static_cast<int>(floor(pacman.y / cell_size)), static_cast<int>(ceil(pacman.x + cell_size - 1 / cell_size)) };
+	pacman_cells[2] = { static_cast<int>(ceil(pacman.y + cell_size - 1 / cell_size)), static_cast<int>(floor(pacman.x / cell_size)) };
+	pacman_cells[3] = { static_cast<int>(ceil(pacman.y + cell_size - 1 / cell_size)), static_cast<int>(ceil(pacman.x + cell_size - 1 / cell_size)) };
+
+	for (char i = 0; i < 4; i++) {
+		if (ghost_cells[i] == pacman_cells[i]) {
+			return 1;
+		}
+		else {
+			return 0;
+		}
 	}
-	return 0;
 }
 
 void Ghost::update(std::array<std::array<Cells, map_width>, map_height>& map, Pacman& pacman, Ghost& blinky, std::vector<std::vector<short>>& nodes) {

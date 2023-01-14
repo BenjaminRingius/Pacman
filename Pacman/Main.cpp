@@ -51,6 +51,8 @@ int main() {
     sf::RenderWindow window(sf::VideoMode(map_width * cell_size, map_height * cell_size), "Pacman");
     window.setFramerateLimit(50);
 
+    bool filled_screen = 0;
+
     sf::Event events;
     while (1 == window.isOpen()) {
 
@@ -58,6 +60,16 @@ int main() {
 
             if (events.type == sf::Event::Closed) {
                 window.close();
+            }
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::E) && 1 != filled_screen) {
+                filled_screen = 1;
+                window.create(sf::VideoMode(map_width * cell_size + 768, map_height * cell_size), "Pacman");
+                window.setFramerateLimit(50);
+            }
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::R) && 0 != filled_screen) {
+                filled_screen = 0;
+                window.create(sf::VideoMode(map_width * cell_size, map_height * cell_size), "Pacman");
+                window.setFramerateLimit(50);
             }
         }
 
@@ -72,7 +84,7 @@ int main() {
 
             if (1 == ghost_manager.update(converted_map, pacman, nodes)) { // When this update returns 1 it means that we have a collision between pacman and a ghost or if pacman wins
                 ghost_manager.reset(ghost_positions);
-                converted_map = convert_map(map, pacman, ghost_positions); // when we reset this converted_map array it'll set the start position pacman
+                converted_map = convert_map(map, pacman, ghost_positions); // when we reset this converted_map array it'll set the start position for pacman and the ghosts
             }
         }
 

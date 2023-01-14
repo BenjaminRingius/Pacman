@@ -14,7 +14,7 @@ private:
 	char id;
 	char anime_timer = 0;
 	char frame;
-	char ghost_mode = 1;
+	char ghost_mode = 0; // 0: chase mode, 1: scatter mode, 2: frightened
 	char random_direction = direction;
 
 	bool use_door = 1;

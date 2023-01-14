@@ -12,7 +12,7 @@ constexpr char pac_anime_frames = 4;
 constexpr char ghost_anime_speed = 8;
 constexpr char ghost_anime_frames = 2;
 
-constexpr short ghost_speed = 4;
+constexpr short ghost_speed = 3;
 
 enum class Cells {
 	Empty,
